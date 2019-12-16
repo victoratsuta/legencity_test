@@ -1,22 +1,8 @@
-# Docker Compose for Node.js and PostgreSQL
+#TEST
 
-For the sake of making it more real-world, setup has also a build step (here with **TypeScript**).
+## Install
 
-## [Read more](https://michalzalecki.com/docker-compose-for-nodejs-and-postresql/)
-
-I've put together an article which explains most of the code from this repo: [Docker Compose for NodeJS and PostreSQL](https://michalzalecki.com/docker-compose-for-nodejs-and-postresql/)
-
-## Run
-
-    docker-compose up --build
-
-## Test
-
-```sh
-curl http://localhost:3000/ping
-# {"environment":"development","database":"up"}
-```
-
-## WARNING
-
-Don't keep `.env` file in the repo. It's here as it makes demo example simpler.
+1. `docker-compose up --build`
+2. run  tests in container `docker exec -it legencity_app_1 /bin/sh`
+3. in container `npm test`
+4. run postman file `legencity.postman_collection.json`

@@ -9,7 +9,8 @@
     "start:dev": "nodemon --inspect=0.0.0.0:9229 dist/index.js",
     "build": "tsc",
     "build:watch": "tsc -w",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "PORT=3001 DATABASE_URL=postgres://suvpwtak:fVb9WOPc8gqDKwmXjQTncihQQk_x_TGh@rajje.db.elephantsql.com:5432/suvpwtak PG_PASS=fVb9WOPc8gqDKwmXjQTncihQQk_x_TGh PG_USER=suvpwtak PG_HOST=rajje.db.elephantsql.com PG_BASE=suvpwtak PG_PORT=5432 jest --detectOpenHandles",
+    "migrate": "node-pg-migrate"
   },
   "repository": {
     "type": "git",
@@ -24,14 +25,61 @@
   "homepage": "https://github.com/MichalZalecki/docker-compose-node-postgres#readme",
   "dependencies": {
     "@types/express": "^4.16.1",
-    "@types/node": "^11.13.4",
+    "@types/jest": "^24.0.23",
+    "@types/node": "^11.15.3",
     "@types/pg": "^7.4.14",
+    "ajv": "^6.10.2",
+    "babel-jest": "^24.9.0",
+    "body-parser": "^1.19.0",
+    "dotenv": "latest",
     "express": "^4.16.4",
+    "express-async-errors": "^3.1.1",
+    "express-async-handler": "^1.1.4",
+    "node-pg-migrate": "^4.0.0",
     "pg": "^7.9.0",
+    "ts-jest": "^24.2.0",
     "typescript": "^3.4.3"
   },
   "devDependencies": {
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "concurrently": "^4.1.0",
-    "nodemon": "^1.18.11"
+    "cross-env": "^6.0.3",
+    "jest": "^24.9.0",
+    "nodemon": "^1.18.11",
+    "supertest": "^4.0.2"
+  },
+  "jest": {
+    "modulePaths": [
+      "<rootDir>/src",
+      "<rootDir>/node_modules"
+    ],
+    "globals": {
+      "NODE_ENV": "test",
+      "DATABASE_URL": "postgres://suvpwtak:fVb9WOPc8gqDKwmXjQTncihQQk_x_TGh@rajje.db.elephantsql.com:5432/suvpwtak",
+      "PG_PASS": "fVb9WOPc8gqDKwmXjQTncihQQk_x_TGh",
+      "PG_USER": "suvpwtak",
+      "PG_HOST": "rajje.db.elephantsql.com",
+      "PG_BASE": "suvpwtak",
+      "PG_PORT": "5432"
+    },
+    "verbose": true,
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json"
+    ],
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest",
+      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!lodash-es)"
+    ],
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "aurelia-(.*)": "<rootDir>/node_modules/$1"
+    }
   }
 }

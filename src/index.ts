@@ -1,29 +1,29 @@
 import express from "express";
-import { Client } from "pg";
+import bodyParser from "body-parser";
+import {router} from "./routes/task";
+import {ValidationException} from "./exceptions/validation.exception";
 
 const PORT = process.env.PORT || 3000;
+export const app = express();
 
-const client = new Client({
-  password: "postgres",
-  user: "postgres",
-  host: "postgres",
-});
+// @ts-ignore
+const errorHandler = (err, req, res, next) => {
 
-const app = express();
+    if (err instanceof ValidationException) {
+        return res
+            .status(403)
+            .json(err.message);
+    }
 
-app.get("/ping", async (req, res) => {
-  const database = await client.query("SELECT 1 + 1").then(() => "up").catch(() => "down");
+    return res
+        .status(500)
+        .json({message: 'Internal error'});
+}
 
-  res.send({
-    environment: process.env.NODE_ENV,
-    database,
-  });
-});
+app.use(bodyParser());
+app.use('/api/tasks', router);
+app.use(errorHandler);
 
-(async () => {
-  await client.connect();
-
-  app.listen(PORT, () => {
+export const server = app.listen(PORT, () => {
     console.log("Started at http://localhost:%d", PORT);
-  });
-})();
+});
